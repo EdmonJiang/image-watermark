@@ -1,0 +1,24 @@
+# 统一行尾, 避免不同平台/不同 core.autocrlf 设置导致的“整个文件都改了”的伪 diff
+* text=auto eol=lf
+
+# Windows 批处理必须用 CRLF, 否则 cmd.exe 可能无法正确解析
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件不做任何转换
+*.exe   binary
+*.ico   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.tif   binary
+*.tiff  binary
+*.o     binary
+*.res   binary
+
+# 语言统计
+*.c      linguist-language=C
+*.md     linguist-documentation
+watermark.png linguist-vendored
