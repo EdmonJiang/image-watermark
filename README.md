@@ -66,7 +66,15 @@
 - [TDM-GCC](https://jmeubank.github.io/tdm-gcc/) —— 本项目开发所用，推荐 9.2 或更新
 - [MinGW-w64](https://www.mingw-w64.org/) —— 官方发行版亦可
 
-**编译**：直接双击 `build.bat`，或手动执行：
+**编译**：直接双击 `build.bat` 即可。脚本会从 `PATH` 中查找 `gcc` / `windres`；如果它们不在 `PATH` 里，可以用环境变量指定完整路径：
+
+```bat
+set GCC=D:\path\to\gcc.exe
+set WINDRES=D:\path\to\windres.exe
+build.bat
+```
+
+也可以完全手动执行：
 
 ```bat
 windres -i resource.rc -o resource.o
@@ -75,7 +83,7 @@ gcc -O2 -mwindows -municode -Wall -o watermark.exe watermark.c resource.o ^
     -lcomctl32 -lgdi32 -lgdiplus -lole32 -loleaut32 -luuid -lcomdlg32 -lshlwapi -lm
 ```
 
-编译产物为 `watermark.exe`（约 450 KB）。
+编译产物为 `watermark.exe`（约 450 KB），无任何第三方 DLL 依赖。
 
 ### 📖 使用方法
 
@@ -113,6 +121,7 @@ image-watermark/
 ├── watermark.ico   # 程序图标
 ├── watermark.png   # 界面截图 / README 配图
 ├── build.bat       # 一键编译脚本
+├── .gitattributes  # 统一行尾
 ├── LICENSE         # MIT 许可证
 └── README.md
 ```
@@ -179,7 +188,15 @@ Compiler options:
 - [TDM-GCC](https://jmeubank.github.io/tdm-gcc/) — used for development, 9.2+ recommended
 - [MinGW-w64](https://www.mingw-w64.org/) — official distribution also works
 
-Build by running `build.bat`, or manually:
+Just run `build.bat`. The script looks for `gcc` / `windres` on your `PATH`; if they are not there, point it at them with environment variables:
+
+```bat
+set GCC=D:\path\to\gcc.exe
+set WINDRES=D:\path\to\windres.exe
+build.bat
+```
+
+Or build manually:
 
 ```bat
 windres -i resource.rc -o resource.o
@@ -188,7 +205,7 @@ gcc -O2 -mwindows -municode -Wall -o watermark.exe watermark.c resource.o ^
     -lcomctl32 -lgdi32 -lgdiplus -lole32 -loleaut32 -luuid -lcomdlg32 -lshlwapi -lm
 ```
 
-The result is `watermark.exe` (~450 KB).
+The result is `watermark.exe` (~450 KB) with no third-party DLL dependencies.
 
 ### 📖 Usage
 
@@ -225,6 +242,7 @@ image-watermark/
 ├── watermark.ico   # Application icon
 ├── watermark.png   # UI screenshot / README image
 ├── build.bat       # One-click build script
+├── .gitattributes  # Line-ending normalization
 ├── LICENSE         # MIT License
 └── README.md
 ```
