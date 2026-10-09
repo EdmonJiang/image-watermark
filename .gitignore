@@ -1,0 +1,22 @@
+# 构建产物 / Build artifacts
+*.exe
+*.o
+*.obj
+*.res
+*.dll
+*.a
+*.log
+
+# IDE / 编辑器
+.vscode/
+.idea/
+*.swp
+*~
+
+# 测试输出
+test_out.*
+tout.*
+p12_*
+p13_*
+p14_*
+dbg.txt
