@@ -57,7 +57,7 @@ static wchar_t g_srcPath[MAX_PATH] = L"";
 static wchar_t g_ext[16] = L".png";   /* 保存时默认扩展名 */
 
 /* 水印参数 (默认: 红色, 字号50, 密度3, 透明度20%%, 仰角30度) */
-static wchar_t g_text[256]  = L"水印文字";
+static wchar_t g_text[256]  = L"仅用于";
 static int  g_fontSize      = 50;
 static COLORREF g_color     = RGB(255, 0, 0);
 static int  g_angle         = 30;    /* -90..90 度 */
@@ -345,7 +345,13 @@ static void applyWatermark(void)
     uint8_t *mask; int mw, mh;
     makeTextMask(t, g_fontSize, &mask, &mw, &mh);
 
-    double ang = g_angle * (M_PI / 180.0);
+    /*
+     * 注意: 图像为 top-down (y 轴向下), 而逆映射用的是标准数学旋转矩阵,
+     * 直接用 +g_angle 会在屏幕上产生相反方向的旋转 (正角度视觉上顺时针),
+     * 与滑条标签的约定不一致。这里取负号, 使正角度在视觉上逆时针倾斜
+     * (与界面显示的度数一致)。
+     */
+    double ang = -g_angle * (M_PI / 180.0);
     double cs = cos(ang), sn = sin(ang);
 
     double bw = mw * fabs(cs) + mh * fabs(sn);
@@ -426,10 +432,22 @@ static void invalidatePreview(void)
     InvalidateRect(g_hWnd, &r, FALSE);
 }
 
-static void refreshPreview(void)
+/*
+ * 重绘整块预览区并擦除背景。
+ * 换图时新旧图像尺寸/比例往往不同, 预览矩形也跟着变; 如果只重绘新矩形,
+ * 旧图残留在新矩形之外的部分不会被擦掉, 看起来就是两张图叠加。
+ * 因此打开新图时必须把整块预览区擦除重画。只动预览区, 不碰上方控件。
+ */
+static void invalidatePreviewArea(void)
 {
-    updateLabels(g_hWnd);
-    invalidatePreview();
+    RECT rc, area;
+    if (!g_hWnd) return;
+    GetClientRect(g_hWnd, &rc);
+    area.left = 8;
+    area.top = 118;
+    area.right = rc.right - 8;
+    area.bottom = rc.bottom - 8;
+    InvalidateRect(g_hWnd, &area, TRUE);
 }
 
 static void doOpen(void)
@@ -459,7 +477,8 @@ static void doOpen(void)
     wchar_t *e = wcsrchr(file, L'.');
     if (e) { wcsncpy(g_ext, e, 15); g_ext[15] = 0; }
     applyWatermark();
-    refreshPreview();
+    updateLabels(g_hWnd);
+    invalidatePreviewArea();
 }
 
 static void doSave(void)
@@ -667,11 +686,17 @@ static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
                 StretchDIBits(mem, dx - area.left, dy - area.top, dw, dh,
                               0, 0, g_w, g_h, g_res, &bi, DIB_RGB_COLORS, SRCCOPY);
             } else {
+                HFONT pf = CreateFontW(S(-14), 0, 0, 0, FW_NORMAL, 0, 0, 0,
+                                       DEFAULT_CHARSET, 0, 0, CLEARTYPE_QUALITY,
+                                       0, L"Microsoft YaHei");
+                HFONT oldPf = (HFONT)SelectObject(mem, pf);
                 SetTextColor(mem, RGB(120, 120, 120));
                 SetBkMode(mem, TRANSPARENT);
                 RECT tr = { 0, ah / 2 - 20, aw, ah / 2 + 20 };
-                DrawTextW(mem, L"点击 [打开图片] 选择一张图片", -1, &tr,
+                DrawTextW(mem, L"点击【打开图片】选择一张图片", -1, &tr,
                           DT_CENTER | DT_SINGLELINE);
+                SelectObject(mem, oldPf);
+                DeleteObject(pf);
             }
 
             BitBlt(dc, area.left, area.top, aw, ah, mem, 0, 0, SRCCOPY);

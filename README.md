@@ -88,7 +88,7 @@ gcc -O2 -mwindows -municode -Wall -o watermark.exe watermark.c resource.o ^
 ### 📖 使用方法
 
 1. 点击 **打开图片**，选择要处理的图片
-2. 在 **水印文字** 输入框中输入水印内容（默认 `水印文字`）
+2. 在 **水印文字** 输入框中输入水印内容（默认 `仅用于`）
 3. 按需调节 **文字颜色 / 字号 / 倾斜角度 / 填充密度 / 透明度**
    - 所有调整都会**实时预览**
 4. 点击 **保存图片**，选择格式（PNG / JPEG / BMP / TIFF / GIF）与保存位置
@@ -210,7 +210,7 @@ The result is `watermark.exe` (~450 KB) with no third-party DLL dependencies.
 ### 📖 Usage
 
 1. Click **打开图片** (Open Image) and pick a file
-2. Type your watermark text in the **水印文字** field (default: `水印文字`)
+2. Type your watermark text in the **水印文字** field (default: `仅用于`)
 3. Tune **color / size / angle / density / opacity** as needed — the preview updates live
 4. Click **保存图片** (Save Image), choose a format (PNG / JPEG / BMP / TIFF / GIF) and a location
 5. The default filename is `originalname_水印.png`
