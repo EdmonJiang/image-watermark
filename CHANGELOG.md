@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.2] — 2026-10-12
+
+### ✨ 改动 · Changed
+
+- 窗口标题加上版本号与构建日期：`图片水印工具 v1.0.2 2026-10-12`
+
+---
+
 ## [1.0.1] — 2026-10-12
 
 ### 🐛 修复 · Fixed
@@ -62,5 +70,6 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## 版本说明 · Version Notes
 
+- **[1.0.2]** — 2026-10-12 · 窗口标题显示版本号与日期
 - **[1.0.1]** — 2026-10-12 · 修正倾斜角度方向与换图残影，调整默认文字与提示语
 - **[1.0.0]** — 2026-10-09 · 首个版本

@@ -27,6 +27,10 @@
 #include <string.h>
 #include <math.h>
 
+/* 版本号与构建日期 (同时显示在窗口标题) */
+#define PW_VERSION     L"1.0.2"
+#define PW_BUILD_DATE  L"2026-10-12"
+
 /* ------------------------------------------------------------------ */
 /* 控件 ID                                                             */
 /* ------------------------------------------------------------------ */
@@ -767,7 +771,7 @@ int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrev,
     RegisterClassExW(&wc);
 
     g_hWnd = CreateWindowW(L"WatermarkApp",
-        L"图片水印工具",
+        L"图片水印工具 v" PW_VERSION L" " PW_BUILD_DATE,
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT, S(1000), S(760),
         NULL, NULL, hInst, NULL);
